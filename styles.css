@@ -1729,3 +1729,88 @@ select:focus {
   .site-title { font-size: 1.6rem; }
   .main-tab { font-size: 1rem; padding: 8px 16px; }
 }
+
+/* v28 — High-visibility centered page navigation & aligned footer controls */
+.page-nav {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 20px;
+}
+
+.page-nav > .btn:first-child {
+  justify-self: center;
+  margin-left: 22%;
+}
+
+.page-nav > .btn:last-child {
+  justify-self: center;
+  margin-right: 22%;
+}
+
+.page-nav .btn-secondary,
+.workspace-footer .btn-secondary {
+  background: var(--bg-card);
+  border: 1.5px solid var(--navy);
+  color: var(--navy);
+  font-weight: 700;
+  padding: 9px 18px;
+  box-shadow: 0 2px 6px rgba(30, 58, 138, 0.14);
+}
+
+.page-nav .btn-secondary:hover:not(:disabled),
+.workspace-footer .btn-secondary:hover:not(:disabled) {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(30, 58, 138, 0.24);
+}
+
+.page-nav .btn-secondary:disabled,
+.workspace-footer .btn-secondary:disabled {
+  opacity: 0.72;
+  background: var(--bg-subtle);
+  border: 1.5px solid var(--border-medium);
+  color: var(--text-secondary);
+  box-shadow: none;
+}
+
+.workspace-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 20px;
+}
+
+.workspace-footer > #btnPrevPageBottom {
+  justify-self: start;
+}
+
+.workspace-footer > #btnNextPageBottom {
+  justify-self: center;
+}
+
+.workspace-footer > #btnCheckResult {
+  justify-self: end;
+}
+
+@media (max-width: 720px) {
+  .page-nav > .btn:first-child {
+    margin-left: 0;
+  }
+  .page-nav > .btn:last-child {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-nav,
+  .workspace-footer {
+    gap: 8px;
+  }
+  .page-nav .btn-secondary,
+  .workspace-footer .btn-secondary {
+    padding: 8px 10px;
+    font-size: 0.76rem;
+  }
+}
