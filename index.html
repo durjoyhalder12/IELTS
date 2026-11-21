@@ -154,11 +154,15 @@
           <div class="question-list" id="mcqContainer"></div>
         </section>
 
-        <!-- Footer Navigation & Result Check -->
-        <footer class="workspace-footer">
+        <!-- Footer Navigation (aligned with top page-nav) -->
+        <footer class="workspace-footer" aria-label="Bottom Page Navigation">
           <button type="button" class="btn btn-secondary" id="btnPrevPageBottom">← Previous Page</button>
+          <div class="page-jump" title="Type a page number and press Enter">
+            <label for="pageJumpInputBottom">Page</label>
+            <input type="text" id="pageJumpInputBottom" inputmode="numeric" maxlength="2" autocomplete="off" value="1" aria-label="Go to page number" />
+            <span class="page-jump-total">of <span id="pageTotalLabelBottom">11</span></span>
+          </div>
           <button type="button" class="btn btn-secondary" id="btnNextPageBottom">Next Page →</button>
-          <button type="button" class="btn btn-dark" id="btnCheckResult">Check Result</button>
         </footer>
       </section>
 

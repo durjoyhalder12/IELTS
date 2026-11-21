@@ -1776,29 +1776,35 @@ select:focus {
 }
 
 .workspace-footer {
+  margin-top: 26px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: 20px;
 }
 
-.workspace-footer > #btnPrevPageBottom {
-  justify-self: start;
-}
-
-.workspace-footer > #btnNextPageBottom {
+.workspace-footer > .btn:first-child {
   justify-self: center;
+  margin-left: 22%;
 }
 
-.workspace-footer > #btnCheckResult {
-  justify-self: end;
+.workspace-footer > .btn:last-child {
+  justify-self: center;
+  margin-right: 22%;
 }
 
 @media (max-width: 720px) {
-  .page-nav > .btn:first-child {
+  .page-nav > .btn:first-child,
+  .workspace-footer > .btn:first-child {
     margin-left: 0;
   }
-  .page-nav > .btn:last-child {
+  .page-nav > .btn:last-child,
+  .workspace-footer > .btn:last-child {
     margin-right: 0;
   }
 }

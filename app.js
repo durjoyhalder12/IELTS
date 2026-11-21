@@ -65,6 +65,8 @@
   const tabProgress = document.getElementById("tabProgress");
   const pageJumpInput = document.getElementById("pageJumpInput");
   const pageTotalLabel = document.getElementById("pageTotalLabel");
+  const pageJumpInputBottom = document.getElementById("pageJumpInputBottom");
+  const pageTotalLabelBottom = document.getElementById("pageTotalLabelBottom");
   const brandLink = document.getElementById("brandLink");
   const globalProgressBadge = document.getElementById("globalProgressBadge");
   const pageTitle = document.getElementById("pageTitle");
@@ -82,7 +84,6 @@
   const pageResultBanner = document.getElementById("pageResultBanner");
   const mcqContainer = document.getElementById("mcqContainer");
   const btnPrevPage = document.getElementById("btnPrevPage");
-  const btnCheckResult = document.getElementById("btnCheckResult");
   const btnNextPage = document.getElementById("btnNextPage");
   const btnPrevPageBottom = document.getElementById("btnPrevPageBottom");
   const btnNextPageBottom = document.getElementById("btnNextPageBottom");
@@ -578,10 +579,16 @@
     }
   }
 
+  function checkCurrentPageResult() {
+    const pageObj = pages[state.currentPageIndex];
+    state.checkedPages[pageObj.page] = true;
+    saveState();
+    renderWorkspaceKeepScroll();
+    mcqSectionTop.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   if (btnFloatingCheckResult) {
-    btnFloatingCheckResult.addEventListener("click", () => {
-      btnCheckResult.click();
-    });
+    btnFloatingCheckResult.addEventListener("click", checkCurrentPageResult);
   }
 
   function getWordFrontIconHtml(isChecked, hasAnswer, isCorrect) {
@@ -643,6 +650,8 @@
     tabProgress.setAttribute("aria-selected", String(onProgress));
     pageTotalLabel.textContent = pages.length;
     pageJumpInput.value = String(pages[state.currentPageIndex].page);
+    if (pageTotalLabelBottom) pageTotalLabelBottom.textContent = pages.length;
+    if (pageJumpInputBottom) pageJumpInputBottom.value = String(pages[state.currentPageIndex].page);
     const isFirst = state.currentPageIndex === 0;
     const nextLabel = state.currentPageIndex === pages.length - 1 ? "Finish →" : "Next Page →";
     btnPrevPage.disabled = isFirst;
@@ -656,23 +665,28 @@
   tabProgress.addEventListener("click", showProgressTab);
   brandLink.addEventListener("click", (e) => { e.preventDefault(); goToPage(state.currentPageIndex); });
 
-  pageJumpInput.addEventListener("focus", () => pageJumpInput.select());
-  pageJumpInput.addEventListener("input", () => {
-    pageJumpInput.value = pageJumpInput.value.replace(/\D/g, "");
-  });
-  pageJumpInput.addEventListener("change", () => {
-    const n = parseInt(pageJumpInput.value, 10);
-    if (Number.isFinite(n) && n >= 1 && n <= pages.length) {
-      if (n - 1 !== state.currentPageIndex) goToPage(n - 1);
-    } else {
-      pageJumpInput.value = String(pages[state.currentPageIndex].page);
-    }
-    pageJumpInput.blur();
-  });
-  pageJumpInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") { e.preventDefault(); pageJumpInput.blur(); }
-    if (e.key === "Escape") { pageJumpInput.value = String(pages[state.currentPageIndex].page); pageJumpInput.blur(); }
-  });
+  function bindPageJumpInput(inputEl) {
+    if (!inputEl) return;
+    inputEl.addEventListener("focus", () => inputEl.select());
+    inputEl.addEventListener("input", () => {
+      inputEl.value = inputEl.value.replace(/\D/g, "");
+    });
+    inputEl.addEventListener("change", () => {
+      const n = parseInt(inputEl.value, 10);
+      if (Number.isFinite(n) && n >= 1 && n <= pages.length) {
+        if (n - 1 !== state.currentPageIndex) goToPage(n - 1);
+      } else {
+        inputEl.value = String(pages[state.currentPageIndex].page);
+      }
+      inputEl.blur();
+    });
+    inputEl.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") { e.preventDefault(); inputEl.blur(); }
+      if (e.key === "Escape") { inputEl.value = String(pages[state.currentPageIndex].page); inputEl.blur(); }
+    });
+  }
+  bindPageJumpInput(pageJumpInput);
+  bindPageJumpInput(pageJumpInputBottom);
 
   // Clean Result Summary Bar with ONLY the 3 categories (Correct, Incorrect, Unanswered)
   function retakeCurrentPage(pageObj) {
@@ -917,13 +931,7 @@
 
   }
 
-  btnCheckResult.addEventListener("click", () => {
-    const pageObj = pages[state.currentPageIndex];
-    state.checkedPages[pageObj.page] = true;
-    saveState();
-    renderWorkspaceKeepScroll();
-    mcqSectionTop.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
+
 
   btnPrevPage.addEventListener("click", () => {
     if (state.currentPageIndex > 0) goToPage(state.currentPageIndex - 1);
