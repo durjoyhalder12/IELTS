@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # VocabPulse v27 — IELTS 200 Advanced Vocabulary
 
 **Changes in v27:** new logo (`logo-light.png` + `logo-dark.png` — replace logo-light.png and logo-dark.png with your final logos, same names), top bar with Lessons / Progress tabs + voice, speed and theme controls, page box with Previous / Next, Progress dashboard.
@@ -29,3 +30,7 @@
 - **Built-in Discussion Audio Story**: Every page includes a cohesive, natural discussion story incorporating 100% of that page's vocabulary words, voiced via the browser's built-in Neural/Standard Text-to-Speech engine with voice selector, speed controls (`0.85x`–`1.3x`), pause/resume, and an optional highlighted transcript.
 - **`scripts/page_01_story.txt` – `page_11_story.txt`**: Standalone text scripts for each page's audio story and word list.
 - **Full-Page MCQ & Final Corrected Scorecard**: Answer every word's meaning on the current page before advancing to the next page, and view your complete score, wrong-answer filter, synonyms, antonyms, and example sentences at the end.
+=======
+# IELTS
+Website for IELTS
+>>>>>>> 9abab3d0d3138e4f25db8c1583758463f9a8cd2c
