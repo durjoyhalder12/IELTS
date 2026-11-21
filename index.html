@@ -33,8 +33,17 @@
           <label for="voiceSelect" class="sr-only">Narrator Voice</label>
           <select id="voiceSelect" title="Select Narrator Voice"></select>
         </div>
-        <button type="button" class="theme-toggle-btn" id="btnThemeToggle" aria-label="Toggle Dark Mode" title="Switch between Light and Dark Mode">
-          <span class="theme-icon" id="themeIcon">🌙</span>
+        <button type="button" class="theme-toggle-btn" id="btnThemeToggle" aria-label="Toggle Dark Mode" title="Switch to Dark Mode">
+          <svg class="theme-svg icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+          <svg class="theme-svg icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2"/><path d="M12 20v2"/>
+            <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+            <path d="M2 12h2"/><path d="M20 12h2"/>
+            <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+          </svg>
           <span class="theme-label sr-only" id="themeLabel">Dark Mode</span>
         </button>
       </div>
@@ -67,8 +76,14 @@
 
             <div class="audio-toolbar-row">
               <div class="toolbar-left">
-                <button type="button" class="btn btn-secondary" id="btnToggleWords">Preview Words</button>
-                <button type="button" class="btn btn-secondary" id="btnToggleTranscript">Discussion Transcript</button>
+                <button type="button" class="btn btn-secondary expandable-tab-btn" id="btnToggleWords" aria-expanded="false" aria-controls="wordsBox" title="Click to expand Preview Words">
+                  <span>Preview Words</span>
+                  <span class="tab-chevron" id="chevronWords" aria-hidden="true">▾</span>
+                </button>
+                <button type="button" class="btn btn-secondary expandable-tab-btn" id="btnToggleTranscript" aria-expanded="false" aria-controls="transcriptBox" title="Click to expand Discussion Transcript">
+                  <span>Discussion Transcript</span>
+                  <span class="tab-chevron" id="chevronTranscript" aria-hidden="true">▾</span>
+                </button>
               </div>
               <div class="toolbar-right">
                 <button type="button" class="btn btn-primary" id="btnPlayPause">
@@ -122,21 +137,51 @@
           </div>
 
           <!-- Collapsible Words List Drawer (Word + Meaning Only) -->
-          <div class="drawer hidden" id="wordsBox">
+          <div class="drawer hidden" id="wordsBox" role="region" aria-label="Page Vocabulary List">
             <div class="drawer-header">
-              <strong>Page Vocabulary List</strong>
-              <span>Word &amp; English Meaning</span>
+              <div class="drawer-header-title">
+                <strong>Page Vocabulary List</strong>
+              </div>
+              <div class="drawer-header-actions">
+                <span class="drawer-helper-hint">Word &amp; English Meaning</span>
+                <button type="button" class="drawer-collapse-btn" id="btnCollapseWordsTop" title="Collapse Preview Words">
+                  <span>Collapse</span>
+                  <span aria-hidden="true">▴</span>
+                </button>
+              </div>
             </div>
             <div class="words-grid" id="wordsListContainer"></div>
+            <div class="drawer-footer-bar">
+              <span class="drawer-footer-note">Expanded vocabulary list — click below to close</span>
+              <button type="button" class="drawer-collapse-bottom-btn" id="btnCollapseWordsBottom" title="Collapse Preview Words">
+                <span aria-hidden="true">▴</span>
+                <span>Collapse Word List</span>
+              </button>
+            </div>
           </div>
 
           <!-- Collapsible Transcript Drawer -->
-          <div class="drawer hidden" id="transcriptBox">
+          <div class="drawer hidden" id="transcriptBox" role="region" aria-label="Discussion Transcript">
             <div class="drawer-header">
-              <strong>Discussion Transcript</strong>
-              <span>Target words are highlighted in context</span>
+              <div class="drawer-header-title">
+                <strong>Discussion Transcript</strong>
+              </div>
+              <div class="drawer-header-actions">
+                <span class="drawer-helper-hint">Target words are highlighted in context</span>
+                <button type="button" class="drawer-collapse-btn" id="btnCollapseTranscriptTop" title="Collapse Discussion Transcript">
+                  <span>Collapse</span>
+                  <span aria-hidden="true">▴</span>
+                </button>
+              </div>
             </div>
             <p id="transcriptText" class="transcript-body"></p>
+            <div class="drawer-footer-bar">
+              <span class="drawer-footer-note">Expanded transcript — click below to close</span>
+              <button type="button" class="drawer-collapse-bottom-btn" id="btnCollapseTranscriptBottom" title="Collapse Discussion Transcript">
+                <span aria-hidden="true">▴</span>
+                <span>Collapse Transcript</span>
+              </button>
+            </div>
           </div>
         </section>
 

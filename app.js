@@ -37,8 +37,11 @@
   function applyTheme(mode) {
     const isDark = mode === "dark";
     document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
-    if (themeIcon) themeIcon.textContent = isDark ? "☀️" : "🌙";
     if (themeLabel) themeLabel.textContent = isDark ? "Light Mode" : "Dark Mode";
+    if (btnThemeToggle) {
+      btnThemeToggle.setAttribute("title", isDark ? "Switch to Light Mode" : "Switch to Dark Mode");
+      btnThemeToggle.setAttribute("aria-label", isDark ? "Switch to Light Mode" : "Switch to Dark Mode");
+    }
   }
 
   let currentTheme = "light";
@@ -514,30 +517,91 @@
     applyScrubRatio(parseInt(audioScrubber.value, 10) / 1000, true);
   });
 
+  const btnCollapseWordsTop = document.getElementById("btnCollapseWordsTop");
+  const btnCollapseWordsBottom = document.getElementById("btnCollapseWordsBottom");
+  const btnCollapseTranscriptTop = document.getElementById("btnCollapseTranscriptTop");
+  const btnCollapseTranscriptBottom = document.getElementById("btnCollapseTranscriptBottom");
+
+  function syncDrawerIndicators() {
+    const wordsOpen = !wordsBox.classList.contains("hidden");
+    const transcriptOpen = !transcriptBox.classList.contains("hidden");
+
+    wordsBox.classList.toggle("is-expanded", wordsOpen);
+    btnToggleWords.classList.toggle("active-toggle", wordsOpen);
+    btnToggleWords.setAttribute("aria-expanded", String(wordsOpen));
+    btnToggleWords.setAttribute(
+      "title",
+      wordsOpen ? "Click to collapse Preview Words" : "Click to expand Preview Words"
+    );
+
+    transcriptBox.classList.toggle("is-expanded", transcriptOpen);
+    btnToggleTranscript.classList.toggle("active-toggle", transcriptOpen);
+    btnToggleTranscript.setAttribute("aria-expanded", String(transcriptOpen));
+    btnToggleTranscript.setAttribute(
+      "title",
+      transcriptOpen ? "Click to collapse Discussion Transcript" : "Click to expand Discussion Transcript"
+    );
+  }
+
   function closeAllDrawers() {
     wordsBox.classList.add("hidden");
-    btnToggleWords.classList.remove("active-toggle");
     transcriptBox.classList.add("hidden");
-    btnToggleTranscript.classList.remove("active-toggle");
+    syncDrawerIndicators();
+  }
+
+  function openDrawer(targetDrawer) {
+    closeAllDrawers();
+    targetDrawer.classList.remove("hidden");
+    syncDrawerIndicators();
   }
 
   btnToggleWords.addEventListener("click", () => {
     const willOpen = wordsBox.classList.contains("hidden");
-    closeAllDrawers();
     if (willOpen) {
-      wordsBox.classList.remove("hidden");
-      btnToggleWords.classList.add("active-toggle");
+      openDrawer(wordsBox);
+    } else {
+      closeAllDrawers();
     }
   });
 
   btnToggleTranscript.addEventListener("click", () => {
     const willOpen = transcriptBox.classList.contains("hidden");
-    closeAllDrawers();
     if (willOpen) {
-      transcriptBox.classList.remove("hidden");
-      btnToggleTranscript.classList.add("active-toggle");
+      openDrawer(transcriptBox);
+    } else {
+      closeAllDrawers();
     }
   });
+
+  if (btnCollapseWordsTop) {
+    btnCollapseWordsTop.addEventListener("click", () => {
+      closeAllDrawers();
+      btnToggleWords.focus();
+    });
+  }
+
+  if (btnCollapseWordsBottom) {
+    btnCollapseWordsBottom.addEventListener("click", () => {
+      closeAllDrawers();
+      btnToggleWords.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      btnToggleWords.focus();
+    });
+  }
+
+  if (btnCollapseTranscriptTop) {
+    btnCollapseTranscriptTop.addEventListener("click", () => {
+      closeAllDrawers();
+      btnToggleTranscript.focus();
+    });
+  }
+
+  if (btnCollapseTranscriptBottom) {
+    btnCollapseTranscriptBottom.addEventListener("click", () => {
+      closeAllDrawers();
+      btnToggleTranscript.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      btnToggleTranscript.focus();
+    });
+  }
 
   function highlightStoryWords(storyText, questions) {
     const words = questions.map(q => q.word).sort((a, b) => b.length - a.length);
