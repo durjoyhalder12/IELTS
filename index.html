@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VocabPulse — Build Your Vocabulary.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="logo-light.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand-area" href="#" id="brandLink" aria-label="VocabPulse home">
+        <img class="brand-logo logo-light" src="logo-light.png" alt="VocabPulse logo" width="52" height="52" />
+        <img class="brand-logo logo-dark" src="logo-dark.png" alt="" aria-hidden="true" width="52" height="52" />
+        <span class="brand-text">
+          <span class="site-title">VocabPulse</span>
+          <span class="site-tagline">Build Your Vocabulary.</span>
+        </span>
+      </a>
+
+      <nav class="main-tabs" role="tablist" aria-label="Main sections">
+        <button type="button" class="main-tab active" id="tabLessons" role="tab" aria-selected="true">Lessons</button>
+        <button type="button" class="main-tab" id="tabProgress" role="tab" aria-selected="false">Progress</button>
+      </nav>
+
+      <div class="topbar-controls">
+        <div class="control-pair">
+          <label for="voiceSelect" class="sr-only">Narrator Voice</label>
+          <select id="voiceSelect" title="Select Narrator Voice"></select>
+        </div>
+        <button type="button" class="theme-toggle-btn" id="btnThemeToggle" aria-label="Toggle Dark Mode" title="Switch between Light and Dark Mode">
+          <span class="theme-icon" id="themeIcon">🌙</span>
+          <span class="theme-label sr-only" id="themeLabel">Dark Mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container main-shell">
+    <!-- Page navigation: Previous | page number box | Next -->
+    <nav class="page-nav" id="pageNav" aria-label="Page Navigation">
+      <button type="button" class="btn btn-secondary" id="btnPrevPage">← Previous Page</button>
+      <div class="page-jump" title="Type a page number and press Enter">
+        <label for="pageJumpInput">Page</label>
+        <input type="text" id="pageJumpInput" inputmode="numeric" maxlength="2" autocomplete="off" value="1" aria-label="Go to page number" />
+        <span class="page-jump-total">of <span id="pageTotalLabel">11</span></span>
+      </div>
+      <button type="button" class="btn btn-secondary" id="btnNextPage">Next Page →</button>
+    </nav>
+
+    <main id="mainContainer">
+      <section id="quizWorkspace">
+        <!-- Audio & Study Module -->
+        <section class="card audio-card">
+          <div class="section-head module-top-header">
+            <h2 class="section-main-title">Audio &amp; Reading Module</h2>
+            <p class="section-main-subtitle">Preview words, read the transcript, or listen to the discussion</p>
+          </div>
+
+          <div class="audio-header-stack">
+            <h2 class="lesson-title" id="pageTitle">Modernising Urban Policy &amp; Education</h2>
+
+            <div class="audio-toolbar-row">
+              <div class="toolbar-left">
+                <button type="button" class="btn btn-secondary" id="btnToggleWords">Preview Words</button>
+                <button type="button" class="btn btn-secondary" id="btnToggleTranscript">Discussion Transcript</button>
+              </div>
+              <div class="toolbar-right">
+                <button type="button" class="btn btn-primary" id="btnPlayPause">
+                  <span id="playIcon">▶</span>
+                  <span id="playLabel">Play Audio</span>
+                </button>
+                <button type="button" class="btn btn-secondary" id="btnRestartAudio" title="Restart from 00:00">↺ Restart</button>
+                <label for="rateSelect" class="sr-only">Playback Speed</label>
+          <select id="rateSelect" title="Playback Speed" class="speed-select">
+            <option value="0.7">0.70x</option>
+            <option value="0.8">0.80x</option>
+            <option value="0.9">0.90x</option>
+            <option value="1" selected>1.00x</option>
+            <option value="1.1">1.10x</option>
+            <option value="1.2">1.20x</option>
+            <option value="1.3">1.30x</option>
+            <option value="1.4">1.40x</option>
+          </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Clean Interactive Audio Timeline (supports single-click & drag anywhere) -->
+          <div class="player-section-wrap">
+            <div class="player-bar">
+              <div class="player-bar-top">
+                <span class="player-status" id="audioStatusText">Ready — press Play Audio, click, or drag the timebar</span>
+                <div class="player-clock">
+                  <span id="timeElapsedDisplay">00:00</span>
+                  <span class="clock-sep">/</span>
+                  <span id="timeTotalDisplay">01:15</span>
+                </div>
+              </div>
+              <div class="scrubber-track-wrap" id="scrubberTrackWrap">
+                <div class="scrubber-rail">
+                  <div class="scrubber-fill" id="scrubberFill"></div>
+                </div>
+                <div class="scrubber-thumb" id="scrubberThumb"></div>
+                <input
+                  type="range"
+                  id="audioScrubber"
+                  class="timeline-slider"
+                  min="0"
+                  max="1000"
+                  value="0"
+                  step="1"
+                  aria-label="Audio timeline scrubber"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Collapsible Words List Drawer (Word + Meaning Only) -->
+          <div class="drawer hidden" id="wordsBox">
+            <div class="drawer-header">
+              <strong>Page Vocabulary List</strong>
+              <span>Word &amp; English Meaning</span>
+            </div>
+            <div class="words-grid" id="wordsListContainer"></div>
+          </div>
+
+          <!-- Collapsible Transcript Drawer -->
+          <div class="drawer hidden" id="transcriptBox">
+            <div class="drawer-header">
+              <strong>Discussion Transcript</strong>
+              <span>Target words are highlighted in context</span>
+            </div>
+            <p id="transcriptText" class="transcript-body"></p>
+          </div>
+        </section>
+
+        <!-- Vocabulary Assessment Section -->
+        <section class="assessment-section" id="mcqSectionTop">
+          <div class="section-head assessment-head">
+            <h2 class="section-main-title">Check your vocabulary knowledge <span class="mcq-count-tag" id="mcqCountTag">(18 MCQs)</span></h2>
+            <p class="section-main-subtitle">Choose the accurate English meaning for each word on this page.</p>
+          </div>
+
+          <!-- Three-Metric Result Banner (Correct, Incorrect, Unanswered) -->
+          <div class="result-summary-bar hidden" id="pageResultBanner"></div>
+
+          <!-- 2x2 Option Grid MCQ Cards -->
+          <div class="question-list" id="mcqContainer"></div>
+        </section>
+
+        <!-- Footer Navigation & Result Check -->
+        <footer class="workspace-footer">
+          <button type="button" class="btn btn-secondary" id="btnPrevPageBottom">← Previous Page</button>
+          <button type="button" class="btn btn-dark" id="btnCheckResult">Check Result</button>
+          <button type="button" class="btn btn-secondary" id="btnNextPageBottom">Next Page →</button>
+        </footer>
+      </section>
+
+      <!-- Final Scorecard View -->
+      <section id="finalResultsView" class="hidden"></section>
+    </main>
+  </div>
+
+  <!-- Floating Selected / Result Counter & Action Stack on the Right Side -->
+  <aside class="floating-dock" id="floatingCounter" aria-live="polite">
+    <div class="floating-counter" title="Question status on this page">
+      <span class="fc-label" id="fcLabel">Selected</span>
+      <div class="fc-count-wrap">
+        <strong id="fcSelectedCount">0</strong><span class="fc-sep">/</span><span id="fcTotalCount">18</span>
+      </div>
+      <span class="fc-sub" id="fcPageLabel">Page 1</span>
+    </div>
+    <button type="button" class="btn btn-dark floating-check-btn" id="btnFloatingCheckResult" title="Check Result">
+      Check Result
+    </button>
+  </aside>
+
+  <script src="vocab-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
